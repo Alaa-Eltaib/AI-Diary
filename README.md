@@ -34,7 +34,7 @@
         
     - مثال:
         
-        PythonCopy
+        
         
         ```python
         text = "one two three four five"
