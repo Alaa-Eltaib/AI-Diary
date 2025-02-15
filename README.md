@@ -1,5 +1,5 @@
 # Learn-Python-
-Welcome to Learn-Python, a beginner-friendly repository for understanding the basics of Python! 🐍✨
+Welcome to Learn-Python, a beginner-friendly  for understanding the basics of Python! 🐍✨
 
 # Why Python 
 
