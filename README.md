@@ -1517,3 +1517,198 @@ code is finshed
 
 ----------------------------------------------------------------------
 # OOP
+
+## Classes/Objects
+Python is an object oriented programming language.
+
+Almost everything in Python is an object, with its properties and methods.
+
+A Class is like an object constructor, or a "blueprint" for creating objects.
+**How to create class**
+use the keyword `class`
+```python
+class MyClass:  
+  x = 5
+```
+**create Object**
+```python
+p1=MyClass()
+print(p1.x)#5
+```
+### The __ init __ () Function
+- All classes have a function called `__init__()`, which is always executed when the class is being initiated.
++ Use the `__init__()` function to assign values to object properties, or other operations that are necessary to do when the object is being created
+- is called automatically
+```pyhton
+class Person:  
+  def __init__(self, name, age):  
+    self.name = name  
+    self.age = age  
+  
+p1 = Person("John", 36)  
+  
+print(p1.name)  #John
+print(p1.age)#36
+```
+### The __ str __ () function
+- like `to string `in java
+- function controls what should be returned when the class object is represented as a string.
+- If the `__str__()` function is not set, the string representation of the object is returned:
+```python
+class Person:  
+  def __init__(self, name, age):  
+    self.name = name  
+    self.age = age  
+  
+p1 = Person("John", 36)  
+  
+print(p1)#<__main__.Person object at 0x15039e602100>
+------------------------------------
+class Person:  
+  def __init__(self, name, age):  
+    self.name = name  
+    self.age = age  
+  
+  def __str__(self):  
+    return f"{self.name}({self.age})"  
+  
+p1 = Person("John", 36)  
+  
+print(p1)#John(36)
+```
+##### object can also contain Methods
+### The self  Parameter
+هي نفس this في جافا بستخدمهم عشان اشاور على object
+- The `self` parameter is a reference to the current instance of the class, and is used to access variables that belong to the class.
+- It does not have to be named `self`, you can call it whatever you like, but it has to be the first parameter of any function in the class
+```python
+class Person:  
+  def __init__(mysillyobject, name, age):  
+    mysillyobject.name = name  
+    mysillyobject.age = age  
+  
+  def myfunc(abc):  
+    print("Hello my name is " + abc.name)  
+  
+p1 = Person("John", 36)  
+p1.myfunc()#Hello my name is John
+```
+###### Modify Object Properties
+```python
+p1.age = 40
+```
+###### Delete Object Properties
+```python
+del p1.age
+```
+###### Delete Object
+```python
+del p1
+```
+######  The pass Statement
+لما اعمل كلاس مينفعش اسيه فاضي ولو سيبته فاضي هيطلّعلك خطأ (Syntax Error)  فعشان كده بنحط pass لتفادي الايرور.
+```python
+class Person:  
+  pass
+```
+##  Inheritance
+* Inheritance allows us to define a class that inherits all the methods and properties from another class.
+
+- **Parent class** is the class being inherited from, also called base class.
+
+- **Child class** is the class that inherits from another class, also called derived class
+### Parent class
+Any class can be a parent
+```python
+class Person:  
+  def __init__(self, fname, lname):  
+    self.firstname = fname  
+    self.lastname = lname  
+  
+  def printname(self):  
+    print(self.firstname, self.lastname)  
+  
+#Use the Person class to create an object, and then execute the printname method:  
+  
+x = Person("John", "Doe")  
+x.printname()#John Doe
+```
+### Child class
+Create a class named `Student`, which will inherit the properties and methods from the `Person` class:
+```python
+class Student(Person):  
+  pass
+```
+
+#### And  the __ init __ () Function
+لما عملنا وراثة من غير ما نضيف `()__int__` هو كده بس عنده خاصئص الاب من غير مايكون ليه خصائص خاصة بيه 
+عشان كده لازم نضيف  `()__int__` ولكن لو ضفناها كده مباشرة child مش هيورث خصائص الاب تاني لانه هيحصله `overrides` اذا ماهو الحل 
+الحل إننا نادي على `()__init__` بتاع الأب صراحةً باستخدام `()__Person.__init`
+```python
+
+class Student(Person):  
+  def __init__(self, fname, lname):  
+    Person.__init__(self, fname, lname)
+    -----------------------------------
+   class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+  def printname(self):
+    print(self.firstname, self.lastname)
+
+class Student(Person):
+  def __init__(self, fname, lname):
+    Person.__init__(self, fname, lname)
+
+x = Student("Mike", "Olsen")
+x.printname()# Mike Olsen
+```
+
+#### Use the super() Function
+`super()`
+هنخلي الكلاس الفرعي يورث كل حاجة من الرئيسي من غير ما كل شوية تكتب اسم الرئيسي
+هنا الـ `super().__init__(fname, lname)` بتعمل نفس شغل
+`Person.__init__(self, fname, lname)
+
+```python
+
+class Person:
+    def __init__(self, fname, lname):
+        self.firstname = fname
+        self.lastname = lname
+
+    def printname(self):
+        print(self.firstname, self.lastname)
+
+class Student(Person):
+    def __init__(self, fname, lname):
+        super().__init__(fname, lname)  # Calls Person's __init__
+
+student1 = Student("Ahmed", "Mohamed")
+student1.printname()  # Outputs: Ahmed Mohamed
+```
+ولو عايز تضيف حاجة زيادة تقدر تستخدم `()super` وتضيف الخصائص الجديدة
+
+```python
+class Person:
+    def __init__(self, fname, lname):
+        self.firstname = fname
+        self.lastname = lname
+
+    def printname(self):
+        print(self.firstname, self.lastname)
+
+class Student(Person):
+    def __init__(self, fname, lname, gradyear):
+        super().__init__(fname, lname)      # Inherits from the parent
+        self.graduationyear = gradyear      # Adds something new
+
+    def welcome(self):
+        print(f"Welcome {self.firstname} {self.lastname}, graduated in {self.graduationyear}")
+
+student1 = Student("Ahmed", "Mohamed", 2023)
+student1.welcome()  # Outputs: Welcome Ahmed Mohamed, graduated in 2023
+```
+سوبر برضو مفيدة في multiple inheritance (more than one parent)
