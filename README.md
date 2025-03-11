@@ -1712,3 +1712,143 @@ student1 = Student("Ahmed", "Mohamed", 2023)
 student1.welcome()  # Outputs: Welcome Ahmed Mohamed, graduated in 2023
 ```
 سوبر برضو مفيدة في multiple inheritance (more than one parent)
+
+## Python Iterators
+`iterator` --->
+عبارة عن `object ` بيحتوى على عدد لا يحصى من القيم ، ممكن تجتاز جميع القيم اللي فيه عادي 
+في بايثون بنستعمل `()__iter__`  و `()__next__`
+Lists, tuples, dictionaries, and sets are all iterable objects. They are iterable _containers_ which you can get an iterator from.
+
+All these objects have a `iter()` method which is used to get an iterator,Even strings are iterable objects, and can return an iterator.
+```python
+mytuple = ("apple", "banana", "cherry")  
+myit = iter(mytuple)  
+  
+print(next(myit))# apple 
+print(next(myit))# banana
+print(next(myit))#cherry
+--------------------------
+mystr = "banana"
+myit = iter(mystr)
+
+print(next(myit))#b
+print(next(myit))#a
+print(next(myit))#n
+print(next(myit))#a
+print(next(myit))#n
+print(next(myit))#a
+```
+
+### Create an iterator
+To create an object/class as an iterator you have to implement the methods `__iter__()` and `__next__()` to your object.
+The `__iter__()` method acts similar, you can do operations (initializing etc.), but must always return the iterator object itself.
+The `__next__()` method also allows you to do operations, and must return the next item in the sequence.
+```python
+class MyNumbers:
+    def __iter__(self):
+        self.a = 1
+        return self
+
+    def __next__(self):
+        x = self.a
+        self.a += 1
+        return x
+
+myclass = MyNumbers()
+myiter = iter(myclass)
+
+print(next(myiter))  # 1
+print(next(myiter))  # 2
+print(next(myiter))  # 3
+print(next(myiter))  # 4
+print(next(myiter))  # 5
+
+```
+ لو محطناش `StopIteration` كده اللوب هيفضل يتكرر للنهاية فلازم نحطها
+ ```python
+ class MyNumbers:  
+  def __iter__(self):  
+    self.a = 1  
+    return self  
+  
+  def __next__(self):  
+    if self.a <= 20:  
+      x = self.a  
+      self.a += 1  
+      return x  
+    else:  
+      raise StopIteration  
+  
+myclass = MyNumbers()  
+myiter = iter(myclass)  
+  
+for x in myiter:  
+  print(x)
+```
+## Polymorphism
+التعددية 
+The word "polymorphism" means "many forms", and in programming it refers to methods/functions/operators with the same name that can be executed on many objects or classes.
+Polymorphism is often used in Class methods, where we can have multiple classes with the same method name.
+
+For example, say we have three classes: `Car`, `Boat`, and `Plane`, and they all have a method called `move()`:
+```python
+class Car:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Drive!")  
+  
+class Boat:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Sail!")  
+  
+class Plane:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Fly!")  
+  
+car1 = Car("Ford", "Mustang")       #Create a Car object  
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
+plane1 = Plane("Boeing", "747")     #Create a Plane object  
+  
+for x in (car1, boat1, plane1):  
+  x.move()
+  -------------------------------------------
+  #Create a class called `Vehicle` and make `Car`, `Boat`, `Plane` child classes of `Vehicle`:
+  class Vehicle:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Move!")  
+  
+class Car(Vehicle):  
+  pass  
+  
+class Boat(Vehicle):  
+  def move(self):  
+    print("Sail!")  
+  
+class Plane(Vehicle):  
+  def move(self):  
+    print("Fly!")  
+  
+car1 = Car("Ford", "Mustang")       #Create a Car object  
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
+plane1 = Plane("Boeing", "747")     #Create a Plane object  
+  
+for x in (car1, boat1, plane1):  
+  print(x.brand)  
+  print(x.model)  
+  x.move()
+```
