@@ -1518,6 +1518,15 @@ code is finshed
 ----------------------------------------------------------------------
 # OOP
 
+## OOPs Concepts in Python
+- Class in Python
+- Objects in Python
+- Polymorphism in Python
+- Encapsulation in Python
+- Inheritance in Python
+- Data Abstraction in Python
+
+----------------------------------------------------------------------------------------
 ## Classes/Objects
 Python is an object oriented programming language.
 
@@ -1611,6 +1620,8 @@ del p1
 class Person:  
   pass
 ```
+
+------------------------------------------------------------------------------
 ##  Inheritance
 * Inheritance allows us to define a class that inherits all the methods and properties from another class.
 
@@ -1713,6 +1724,193 @@ student1.welcome()  # Outputs: Welcome Ahmed Mohamed, graduated in 2023
 ```
 سوبر برضو مفيدة في multiple inheritance (more than one parent)
 
+
+-----------------------------------------------------------------------------
+## Polymorphism
+التعددية 
+The word "polymorphism" means "many forms", and in programming it refers to methods/functions/operators with the same name that can be executed on many objects or classes.
+Polymorphism is often used in Class methods, where we can have multiple classes with the same method name.
+
+For example, say we have three classes: `Car`, `Boat`, and `Plane`, and they all have a method called `move()`:
+```python
+class Car:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Drive!")  
+  
+class Boat:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Sail!")  
+  
+class Plane:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Fly!")  
+  
+car1 = Car("Ford", "Mustang")       #Create a Car object  
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
+plane1 = Plane("Boeing", "747")     #Create a Plane object  
+  
+for x in (car1, boat1, plane1):  
+  x.move()
+  -------------------------------------------
+  #Create a class called `Vehicle` and make `Car`, `Boat`, `Plane` child classes of `Vehicle`:
+  class Vehicle:  
+  def __init__(self, brand, model):  
+    self.brand = brand  
+    self.model = model  
+  
+  def move(self):  
+    print("Move!")  
+  
+class Car(Vehicle):  
+  pass  
+  
+class Boat(Vehicle):  
+  def move(self):  
+    print("Sail!")  
+  
+class Plane(Vehicle):  
+  def move(self):  
+    print("Fly!")  
+  
+car1 = Car("Ford", "Mustang")       #Create a Car object  
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
+plane1 = Plane("Boeing", "747")     #Create a Plane object  
+  
+for x in (car1, boat1, plane1):  
+  print(x.brand)  
+  print(x.model)  
+  x.move()
+
+```
+-------------------------------------------------------------------------------
+## Python Encapsulation
+هو إنك تجمع البيانات (زي المتغيرات) والدوال (الـ methods) جوا حاجة  **كلاس**، وفي نفس الوقت تحط قيود على الوصول لبعض الحاجات دي عشان تتحكم مين اللي يقدر يشوفها أو يغيرها. 
+Encapsulation is the bundling of data (attributes) and methods (functions) within a class, restricting access to some components to control interactions.
+
+A class is an example of encapsulation as it encapsulates all the data that is member functions, variables, etc.
+### Types of Encapsulation:
+
+1. ****Public Members****: Accessible from anywhere.
+2. ****Protected Members****: Accessible within the class and its subclasses. --> to write put`_` ,Access is discouraged but allowed in subclasses.
+
+3. ****Private Members****: Accessible only within the class. --> to write put`__` and  Access requires **getter** and **setter** 
+```python
+class Dog:
+    def __init__(self, name, breed, age):
+        self.name = name  # Public attribute
+        self._breed = breed  # Protected attribute
+        self.__age = age  # Private attribute
+
+    # Public method
+    def get_info(self):
+        return f"Name: {self.name}, Breed: {self._breed}, Age: {self.__age}"
+
+    # Getter and Setter for private attribute
+    def get_age(self):
+        return self.__age
+
+    def set_age(self, age):
+        if age > 0:
+            self.__age = age
+        else:
+            print("Invalid age!")
+
+# Example Usage
+dog = Dog("Buddy", "Labrador", 3)
+
+# Accessing public member
+print(dog.name)  # Accessible
+
+# Accessing protected member
+print(dog._breed)  # Accessible but discouraged outside the class
+
+# Accessing private member using getter
+print(dog.get_age())
+
+# Modifying private member using setter
+dog.set_age(5)
+print(dog.get_info())
+
+```
+ **ملحوظة مهمة :**
+في بايثون، لما بتحط` __ `(اتنين أندر سكور) قبل اسم المتغير أو الدالة (زي __ age في المثال بتاعنا)، ده بيسموه *Private*، بس الحقيقة إنه مش "خاص" بالمعنى الحرفي زي لغات تانية (زي الـ C++ أو الـ Java). في بايثون، ده أكتر حاجة اسمها *Name Mangling* (تشويش الاسم)، يعني بايثون بتعمل حاجة ذكية عشان تخلي الوصول للمتغير ده صعب شوية، لكن مش مستحيل.
+### يعني إيه Name Mangling؟
+
+لما تكتب `__ age` جوا كلاس اسمه Dog مثلاً، بايثون بتغير اسمه داخليًا ليبقى `_ Dog__age` . فلو حاولت توصل ليه من برا الكلاس بـ `dog.__age`، هتطلعلك رسالة خطأ (AttributeError)، لكن لو كنت عارف الخدعة دي وحاولت تستخدم `_Dog__age`، هتقدر توصل له فعلاً!
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.__age = age  # المفروض دي خاصة
+
+    def get_age(self):
+        return self.__age
+
+dog = Dog(3,"Buddy")
+
+# لو جربت كده:
+print(dog.name)  # هتطلع "Buddy" عادي
+# print(dog.__age)  # هتطلع AttributeError
+
+# لكن لو عملت كده:
+print(dog._Dog__age)  # هتطلع 3، وده التشويش اللي اتكلمنا عنه!
+```
+-------------------------------------------------------------------------------
+## Data Abstraction
+الـ Abstraction هو إنك تخبي التفاصيل الداخلية المعقدة بتاعة الكود (يعني"إزاي بيشتغل")، وتظهر بس اللي المستخدم محتاجه (يعني "اعمل إيه").
+Abstraction hides the internal implementation details while exposing only the necessary functionality. It helps focus on “what to do” rather than “how to do it.”
+### Types of Abstraction:
+
+- ****Partial Abstraction:**** Abstract class contains both abstract and concrete methods.
+- ****Full Abstraction:**** Abstract class contains only abstract methods (like interfaces).
+```python
+from abc import ABC, abstractmethod
+
+class Dog(ABC):  # Abstract Class
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def sound(self):  # Abstract Method
+        pass
+
+    def display_name(self):  # Concrete Method
+        print(f"Dog's Name: {self.name}")
+
+class Labrador(Dog):  # Partial Abstraction
+    def sound(self):
+        print("Labrador Woof!")
+
+class Beagle(Dog):  # Partial Abstraction
+    def sound(self):
+        print("Beagle Bark!")
+
+# Example Usage
+dogs = [Labrador("Buddy"), Beagle("Charlie")]
+for dog in dogs:
+    dog.display_name()  # Calls concrete method
+    dog.sound()  # Calls implemented abstract method
+
+```
+### ليه بنستخدم الـ Abstraction؟
+
+- **تنظيم الكود**: بتخلي كل حاجة في مكانها وبتحدد إيه اللي لازم يتعمل من غير ما تتدخل في التفاصيل.
+- **ضمان الاتساق**: يعني كل الكلاسات اللي هتورث من Dog مضطرة تعمل دالة sound، فمحدش هينسى .
+- **بساطة**: اللي بيستخدم الكود مش محتاج يعرف إزاي كل حاجة شغالة، المهم إنه يعرف يستخدمها.
+-----------------------------------------------------------------------------
 ## Python Iterators
 `iterator` --->
 عبارة عن `object ` بيحتوى على عدد لا يحصى من القيم ، ممكن تجتاز جميع القيم اللي فيه عادي 
@@ -1784,71 +1982,4 @@ myiter = iter(myclass)
   
 for x in myiter:  
   print(x)
-```
-## Polymorphism
-التعددية 
-The word "polymorphism" means "many forms", and in programming it refers to methods/functions/operators with the same name that can be executed on many objects or classes.
-Polymorphism is often used in Class methods, where we can have multiple classes with the same method name.
-
-For example, say we have three classes: `Car`, `Boat`, and `Plane`, and they all have a method called `move()`:
-```python
-class Car:  
-  def __init__(self, brand, model):  
-    self.brand = brand  
-    self.model = model  
-  
-  def move(self):  
-    print("Drive!")  
-  
-class Boat:  
-  def __init__(self, brand, model):  
-    self.brand = brand  
-    self.model = model  
-  
-  def move(self):  
-    print("Sail!")  
-  
-class Plane:  
-  def __init__(self, brand, model):  
-    self.brand = brand  
-    self.model = model  
-  
-  def move(self):  
-    print("Fly!")  
-  
-car1 = Car("Ford", "Mustang")       #Create a Car object  
-boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
-plane1 = Plane("Boeing", "747")     #Create a Plane object  
-  
-for x in (car1, boat1, plane1):  
-  x.move()
-  -------------------------------------------
-  #Create a class called `Vehicle` and make `Car`, `Boat`, `Plane` child classes of `Vehicle`:
-  class Vehicle:  
-  def __init__(self, brand, model):  
-    self.brand = brand  
-    self.model = model  
-  
-  def move(self):  
-    print("Move!")  
-  
-class Car(Vehicle):  
-  pass  
-  
-class Boat(Vehicle):  
-  def move(self):  
-    print("Sail!")  
-  
-class Plane(Vehicle):  
-  def move(self):  
-    print("Fly!")  
-  
-car1 = Car("Ford", "Mustang")       #Create a Car object  
-boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object  
-plane1 = Plane("Boeing", "747")     #Create a Plane object  
-  
-for x in (car1, boat1, plane1):  
-  print(x.brand)  
-  print(x.model)  
-  x.move()
 ```
