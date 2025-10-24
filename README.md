@@ -1,4 +1,4 @@
-# 🚀 From Python to AI
+# 🚀 AI-Diary
 
 This repository documents my learning journey in programming, machine learning, and deep learning.  
 Here, I share every step — code, explanations, and notes that help me understand and grow.
